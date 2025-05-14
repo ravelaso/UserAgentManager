@@ -6,13 +6,19 @@
 </head>
 <body>
     <div class="container">
-        <h2>User Agent Manager</h2>
-        <select id="uaSelect">
+        <div class="header">
+            <h2>User Agent Manager</h2>
+            <button id="toggleTheme" class="theme-toggle">🌙</button>
+        </div>
+        <select id="uaSelect" class="ua-select">
             <option value="default">Default (Disabled)</option>
             <option value="windows">Windows</option>
             <option value="linux">Linux</option>
             <option value="mac">Mac</option>
         </select>
+        <div class="status">
+            <span id="statusText">Current: Default</span>
+        </div>
     </div>
     <script src="popup.js"></script>
 </body>

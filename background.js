@@ -6,6 +6,13 @@ const userAgents = {
 
 let currentUA = 'default';
 
+// Initialize the UA from storage when extension loads
+chrome.storage.local.get('selectedUA', function(data) {
+    if (data.selectedUA) {
+        currentUA = data.selectedUA;
+    }
+});
+
 chrome.webRequest.onBeforeSendHeaders.addListener(
     function(details) {
         if (currentUA !== 'default') {
@@ -26,6 +33,15 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.action === 'updateUA') {
             currentUA = request.value;
+            // Notify all tabs about the UA change
+            chrome.tabs.query({}, function(tabs) {
+                tabs.forEach(function(tab) {
+                    chrome.tabs.sendMessage(tab.id, {
+                        action: 'uaChanged',
+                        value: currentUA
+                    });
+                });
+            });
         }
     }
 );
