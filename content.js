@@ -1,22 +1,36 @@
 chrome.storage.local.get('selectedUA', function(data) {
     if (data.selectedUA && data.selectedUA !== 'default') {
+        const currentUA = navigator.userAgent;
+        const browserInfo = {
+            chromeVersion: currentUA.match(/Chrome\/([0-9.]+)/)[1],
+            webkitVersion: currentUA.match(/AppleWebKit\/([0-9.]+)/)[1],
+        };
+
         const userAgents = {
-            windows: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            linux: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            mac: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            windows: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/${browserInfo.webkitVersion} (KHTML, like Gecko) Chrome/${browserInfo.chromeVersion} Safari/${browserInfo.webkitVersion}`,
+            linux: `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/${browserInfo.webkitVersion} (KHTML, like Gecko) Chrome/${browserInfo.chromeVersion} Safari/${browserInfo.webkitVersion}`,
+            mac: `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/${browserInfo.webkitVersion} (KHTML, like Gecko) Chrome/${browserInfo.chromeVersion} Safari/${browserInfo.webkitVersion}`
         };
 
         const script = document.createElement('script');
         script.textContent = `
-            Object.defineProperty(navigator, 'userAgent', {
-                get: function() { return '${userAgents[data.selectedUA]}' }
-            });
-            Object.defineProperty(navigator, 'appVersion', {
-                get: function() { return '${userAgents[data.selectedUA]}' }
-            });
-            Object.defineProperty(navigator, 'platform', {
-                get: function() { return '${data.selectedUA === 'windows' ? 'Win32' : 
-                                        data.selectedUA === 'mac' ? 'MacIntel' : 'Linux x86_64'}' }
+            Object.defineProperties(navigator, {
+                userAgent: {
+                    get: function() { return '${userAgents[data.selectedUA]}' }
+                },
+                appVersion: {
+                    get: function() { return '${userAgents[data.selectedUA]}' }
+                },
+                platform: {
+                    get: function() { return '${data.selectedUA === 'windows' ? 'Win32' : 
+                                            data.selectedUA === 'mac' ? 'MacIntel' : 'Linux x86_64'}' }
+                },
+                vendor: {
+                    get: function() { return 'Google Inc.' }
+                },
+                language: {
+                    get: function() { return 'en-US' }
+                }
             });
         `;
         document.documentElement.appendChild(script);
