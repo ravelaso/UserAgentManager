@@ -2,6 +2,8 @@
 
 A Chromium based extension that allows you to easily switch between different User Agent strings. Modify both HTTP headers and JavaScript-based User Agent detection.
 
+![Preview](extension.png)
+
 ## Features
 
 - 🔄 Dynamic User Agent switching (Windows, Linux, Mac)
