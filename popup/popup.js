@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Theme management
     function setTheme(isDark) {
         document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-        themeToggle.textContent = isDark ? '☀️' : '🌙';
+        themeToggle.textContent = isDark ? 'Light' : 'Dark';
         chrome.storage.local.set({ isDarkMode: isDark });
     }
 
