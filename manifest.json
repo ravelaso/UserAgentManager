@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "User Agent Manager",
+    "version": "1.0",
+    "description": "Switch between different user agents easily",
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "storage",
+        "<all_urls>"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "User Agent Manager"
+    }
+}
